@@ -1,0 +1,100 @@
+el[5];
+};
+
+struct posicao
+{
+long int i;
+long int j;
+};
+
+int main()
+{
+char type[3];
+int numRow, numCol, maxNum, i, j, z;
+unsigned char r, g, b, r0, b0, g0;
+int primeiro, segundo, contObj = 0, contPilha = 0;
+int** matriz_um_zero;
+FILE *arquivo;
+struct pixel** alocarMatriz;
+struct posicao* pilha;
+char buffer[5];
+
+arquivo = fopen("03.ppm", "rb");
+if (arquivo == NULL)
+{
+printf("File could not be oppened\n ");
+return 0;
+}
+fscanf(arquivo, "%2s", type);
+type[2] = '\0';
+if (strcmp(type, "P6") != 0)
+{
+printf("Nao e um arquivo .ppm");
+return 0;
+}
+fscanf(arquivo, "%d", &numCol);
+fscanf(arquivo, "%d", &numRow);
+fscanf(arquivo, "%d", &maxNum);
+
+printf("\n Colunas: %d\n", numCol);
+printf("\n Linhas: %d\n", numRow);
+printf("\n NumMax: %d\n", maxNum);
+
+//* Alocar matriz *\\
+
+matriz_um_zero = (int**)malloc(numRow * sizeof(int));
+for (i = 0; i < numRow; i++)
+{
+matriz_um_zero[i] = (int*)malloc(numCol * sizeof(int));
+for (j = 0; j < numCol; j++)
+{
+matriz_um_zero[i][j];
+}
+}
+
+//* Preenchendo matriz de pixels *\\
+
+alocarMatriz = (struct pixel**) malloc(numRow * sizeof(struct pixel*));
+for (i = 0; i < numRow; i++)
+{
+alocarMatriz[i] = (struct pixel*) malloc(numCol * sizeof(struct pixel));
+for (j = 0; j < numCol; j++)
+{
+fscanf(arquivo, "%c %c %c", &r, &g, &b);
+printf("\nR: %d   G: %d   B: %d   ", r, g, b);
+
+alocarMatriz[i][j].imgPixel[0] = r;
+alocarMatriz[i][j].imgPixel[1] = g;
+alocarMatriz[i][j].imgPixel[2] = b;
+
+r0 = alocarMatriz[0][0].imgPixel[0];
+g0 = alocarMatriz[0][0].imgPixel[1];
+b0 = alocarMatriz[0][0].imgPixel[2];
+
+if ((r == r0) && (g == g0) && (b == b0))
+{
+matriz_um_zero[i][j] = 0;
+}
+else
+{
+matriz_um_zero[i][j] = 1;
+}
+
+}
+}
+
+printf("\n");
+
+for (i = 0; i < numRow; i++)
+{
+for (j = 0; j < numCol; j++)
+{
+printf("%d", matriz_um_zero[i][j]);
+}
+printf("\n");
+}
+
+fclose(arquivo);
+getchar();
+return 0;
+}
